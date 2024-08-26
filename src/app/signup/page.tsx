@@ -24,6 +24,7 @@ const SignUp = () => {
   const [accountType, setAccountType] = useState('seeker');
 
   const handleChange = (e) => {
+    const formData = new FormData(e.currentTarget);
     setAccountType(e.target.value);
   };
 

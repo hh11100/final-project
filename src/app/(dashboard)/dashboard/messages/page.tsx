@@ -50,6 +50,7 @@ const fetchMessages = async (conversationId, lastMessageId, lastTimestamp) => {
 export default function Page() {
   const [conversations, setConversations] = useState([]);
   const [currentConversationId, setCurrentConversationId] = useState(null);
+  const [currentConversation, setCurrentConversation] = useState(null);
   const [conversationOtherUser, setConversationOtherUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -67,6 +68,7 @@ export default function Page() {
       if (convos.length > 0) {
         setCurrentConversationId(convos[0].id); // Automatically load the first conversation
         setConversationOtherUser(convos[0].participants.find((p) => p.id !== user.id).firstName);
+        setCurrentConversation(convos[0]);
       }
     };
 
@@ -179,6 +181,28 @@ export default function Page() {
     }
   };
 
+  const handleClickHireButton = async () => {
+    const applicationId = currentConversation.jobApplication.id;
+    // Call the API to accept job application
+    try {
+      const response = await fetch(`/api/jobs/applications/${applicationId}/accept`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error accepting application: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Failed to accept application:', error);
+    };
+  };
+
   const handleKeyPress = (e) => {
     socket.emit('typing', { userId: user.id, conversationId: currentConversationId });
 
@@ -190,6 +214,7 @@ export default function Page() {
 
   const handleConversationClick = (conversationId) => {
     setCurrentConversationId(conversationId);
+    setCurrentConversation(conversations.find((c) => c.id === conversationId));
     setMessages([]);
   };
 
@@ -213,11 +238,15 @@ export default function Page() {
             <Grid item xs={12} sm={6}>
               <Title>Messages</Title>
             </Grid>
+            
             <Grid item xs={6} sm={3}>
-              <Button variant="contained" fullWidth color="secondary">
-                Hire
-              </Button>
+              {user && user.accountType === 'seeker' && (
+                <Button variant="contained" fullWidth color="secondary" onClick={handleClickHireButton}>
+                  Hire
+                </Button>
+              )}
             </Grid>
+            
             <Grid item xs={6} sm={3}>
               <Button variant="contained" fullWidth color="primary" onClick={() => router.push(`/dashboard/profile/${conversationOtherUser}`)}>
                 View Profile
