@@ -241,9 +241,13 @@ export default function Page() {
             
             <Grid item xs={6} sm={3}>
               {user && user.accountType === 'seeker' && (
-                <Button variant="contained" fullWidth color="secondary" onClick={handleClickHireButton}>
-                  Hire
-                </Button>
+                <>
+                {currentConversation && currentConversation.jobApplication && currentConversation.jobApplication.status === 'pending' && (
+                  <Button variant="contained" fullWidth color="primary" onClick={handleClickHireButton}>
+                    Accept Application
+                  </Button>
+                )}
+                </>
               )}
             </Grid>
             
