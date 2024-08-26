@@ -1,7 +1,10 @@
 import React from 'react';
 import { Box, Grid, Card, CardContent, Typography, Button, CardActions } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const CurrentRequests = ({ requests }) => {
+  const router = useRouter();
+
   if (requests.length === 0) {
     return <Typography variant="subtitle1">You have no current requests.</Typography>;
   }
@@ -25,9 +28,7 @@ const CurrentRequests = ({ requests }) => {
                 <Button
                   size="small"
                   color="secondary"
-                  onClick={() => {
-                    // Define action, for example, view request details
-                  }}
+                  onClick={() => router.push(`/dashboard/jobs/${request.id}`)}
                 >
                   View Details
                 </Button>
