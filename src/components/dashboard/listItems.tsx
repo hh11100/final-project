@@ -11,7 +11,7 @@ import Logout from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import { useRouter } from 'next/navigation'; 
 
-export const mainListItems = ({ user }) => {
+export const MainListItems = ({ user }) => {
   const Router = useRouter();
 
   return (

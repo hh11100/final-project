@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function() {
+export default function App() {
   const router = useRouter();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function() {
       // Redirect to the login page or homepage
       router.push('/dashboard');
     }
-  }, []);
+  }, [router]);
 
   return (
     <div>

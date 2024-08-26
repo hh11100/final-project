@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import { socket } from '@/lib/socket';
 import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/navigation';
+import { Conversation } from '@/types';
 
 const fetchConversations = async () => {
   try {
@@ -29,7 +30,7 @@ const fetchConversations = async () => {
   }
 };
 
-const fetchMessages = async (conversationId, lastMessageId, lastTimestamp) => {
+const fetchMessages = async (conversationId: string, lastMessageId: string, lastTimestamp: string) => {
   try {
     const queryParams = new URLSearchParams();
     if (lastMessageId) queryParams.append('lastMessageId', lastMessageId);
@@ -67,7 +68,7 @@ export default function Page() {
       setConversations(convos);
       if (convos.length > 0) {
         setCurrentConversationId(convos[0].id); // Automatically load the first conversation
-        setConversationOtherUser(convos[0].participants.find((p) => p.id !== user.id).firstName);
+        setConversationOtherUser(convos[0].participants.find((p: Conversation) => p.id !== user.id).firstName);
         setCurrentConversation(convos[0]);
       }
     };

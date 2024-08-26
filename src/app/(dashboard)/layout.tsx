@@ -16,7 +16,7 @@ import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems } from '@/components/dashboard/listItems';
+import { MainListItems } from '@/components/dashboard/ListItems';
 import { Copyright } from '@/components/Copyright';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { theme } from '@/lib/theme';
@@ -170,7 +170,7 @@ export default function Layout({ children }) {
               </IconButton>
             </Toolbar>
             <Divider />
-            <List component="nav" onClick={toggleDrawer}>{mainListItems({ user })}</List>
+            <List component="nav" onClick={toggleDrawer}>{MainListItems({ user })}</List>
           </MobileDrawer>
         ) : (
           <MyDrawer variant="permanent" open={open}>
@@ -187,7 +187,7 @@ export default function Layout({ children }) {
               </IconButton>
             </Toolbar>
             <Divider />
-            <List component="nav">{mainListItems({ user })}</List>
+            <List component="nav">{MainListItems({ user })}</List>
           </MyDrawer>
         )}
         <Box

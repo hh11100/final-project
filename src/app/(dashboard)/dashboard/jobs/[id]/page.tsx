@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import JobDetails from '@/components/JobDetails';
 import { TextField, Button, Typography, Box } from '@mui/material';
+import { Job } from '@/types';
 
 export default function Page({ params }: { params: { id: string } }) {
   const [jobDetailData, setJobDetailData] = useState<Job | null>(null);

@@ -59,8 +59,8 @@ export default function SignIn() {
           </Typography>
 
           {error && error.length > 0 && (
-            error.map((err) => (
-              <Typography variant="body2" color="error">
+            error.map((err, index) => (
+              <Typography key={index} variant="body2" color="error">
                 {err}
               </Typography>
             ))

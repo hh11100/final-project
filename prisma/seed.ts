@@ -1,8 +1,8 @@
+/* eslint-disable */
 const PrismaClient = require('@prisma/client').PrismaClient;
 
-const prisma = new PrismaClient();
-
 async function main() {
+  const prisma = new PrismaClient();
   // Create Users
   const userData = [
     { firstName: 'Alice', lastName: 'Smith', email: 'alice.smith@example.com', password: 'password123', accountType: 'seeker' },
@@ -40,6 +40,8 @@ async function main() {
 
   const createdJobs = await prisma.job.createMany({ data: jobData });
   console.log('Jobs created:', createdJobs.count);
+
+  await prisma.$disconnect();
 }
 
 main()
@@ -47,6 +49,3 @@ main()
     console.error(e);
     process.exit(1);
   })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });

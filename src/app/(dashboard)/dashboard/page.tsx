@@ -70,13 +70,13 @@ const Dashboard = () => {
         {user.accountType === 'helper' ? (
           <>
             {jobApplications.length > 0 ? (
-              <Typography variant="subtitle1">Here are the help requests you've applied to:</Typography>
+              <Typography variant="subtitle1">Here are the help requests you&apos;ve applied to:</Typography>
             ) : (
-              <Typography variant="subtitle1">You haven't applied to any help requests yet. Start browsing the <Link href="/dashboard/jobs">jobs.</Link></Typography>
+              <Typography variant="subtitle1">You haven&apos;t applied to any help requests yet. Start browsing the <Link href="/dashboard/jobs">jobs.</Link></Typography>
             )}
           </>
         ) : (
-          <Typography variant="subtitle1">Let's get the help you need.</Typography>
+          <Typography variant="subtitle1">Let&apos;s get the help you need.</Typography>
         )}
       </Box>
 
