@@ -1,7 +1,7 @@
-import { prisma } from "@/lib/prisma";
-
 // Function for handling GET requests
 export async function GET(request: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const userId = request.headers.get('x-user-id');
     

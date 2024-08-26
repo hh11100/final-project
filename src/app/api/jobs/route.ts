@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma";
 import { z } from 'zod';
 
 // Define the schema for validating the incoming POST request data
@@ -20,6 +19,8 @@ const searchSchema = z.object({
 });
 
 export async function GET(req: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const url = new URL(req.url);
     const search = url.searchParams.get('search') || '';
@@ -58,6 +59,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const body = await req.json();
     const userId = req.headers.get('x-user-id');

@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma";
 import { z } from 'zod';
 import { SignJWT } from 'jose';
 import { nanoid } from 'nanoid'; // For generating unique JWT IDs
@@ -10,6 +9,8 @@ const schema = z.object({
 });
 
 export async function POST(req: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const data = await req.json();
     let parsedData;

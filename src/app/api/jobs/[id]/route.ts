@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma";
 import { z } from 'zod';
 
 // Define a schema for the request body
@@ -15,6 +14,8 @@ const idSchema = z.object({
 
 // Function for handling POST requests
 export async function POST(request: Request, { params }: { params: { id: string } }) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     // Validate the 'id' parameter using zod schema
     const idValidationResult = idSchema.safeParse(params);
@@ -63,6 +64,8 @@ export async function POST(request: Request, { params }: { params: { id: string 
 }
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     // Validate the 'id' parameter using zod schema
     const idValidationResult = idSchema.safeParse(params);

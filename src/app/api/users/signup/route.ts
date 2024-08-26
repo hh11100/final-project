@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma";
 import { z } from 'zod';
 
 const schema = z.object({
@@ -22,6 +21,8 @@ const schema = z.object({
 });
 
 export async function POST(req: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const data = await req.json();
     let parsedData;

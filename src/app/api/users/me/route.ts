@@ -1,8 +1,9 @@
-import { prisma } from "@/lib/prisma";
 import { z } from 'zod';
 
 // GET function to retrieve basic user information
 export async function GET(req: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const userId = req.headers.get('x-user-id');
 
@@ -37,6 +38,8 @@ const updateUserSchema = z.object({
 });
 
 export async function PATCH(request: Request) {
+  const { prisma } = await import('@/lib/prisma');
+
   try {
     const userId = request.headers.get('x-user-id');
 
