@@ -1,0 +1,42 @@
+{
+  "name": "circle",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "build": "next build",
+    "start": "NODE_ENV=production tsx src/server.ts",
+    "lint": "next lint",
+    "seed": "node prisma/seed.ts",
+    "prisma-push": "prisma db push"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/material": "^5.16.4",
+    "@prisma/client": "^5.17.0",
+    "jose": "^5.7.0",
+    "js-cookie": "^3.0.5",
+    "next": "14.2.4",
+    "openai": "^4.51.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "sqlite3": "^5.1.7",
+    "tsx": "^4.18.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "cypress": "^13.13.3",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
+    "postcss": "^8",
+    "prisma": "^5.17.0",
+    "tailwindcss": "^3.4.1"
+  }
+}
