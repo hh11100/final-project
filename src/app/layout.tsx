@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { UserProvider } from '@/context/UserContext';
 import { theme } from '@/lib/theme';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,6 +29,7 @@ export default function RootLayout({
           <UserProvider>
             {children}
             <Analytics />
+            <SpeedInsights />
           </UserProvider>
         </ThemeProvider>
       </body>
