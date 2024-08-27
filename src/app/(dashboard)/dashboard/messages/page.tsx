@@ -63,6 +63,10 @@ export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
+
     const loadConversations = async () => {
       const convos = await fetchConversations();
       setConversations(convos);
@@ -113,7 +117,7 @@ export default function Page() {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
     };
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const loadMessages = async () => {
