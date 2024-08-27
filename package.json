@@ -6,9 +6,11 @@
     "dev": "tsx src/server.ts",
     "build": "prisma generate && prisma db push && next build",
     "start": "NODE_ENV=production tsx src/server.ts",
+    "test": "npx cypress run",
     "lint": "next lint",
     "seed": "node prisma/seed.ts",
-    "prisma-push": "prisma db push"
+    "prisma-push": "prisma db push",
+    "reset-db": "tsx prisma/reset-db.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
