@@ -13,7 +13,7 @@ const handler = app.getRequestHandler();
 app.prepare().then(() => {
   const httpServer = createServer(handler);
 
-  const io = new Server(httpServer, { path: '/api/socket',addTrailingSlash: false });
+  const io = new Server(httpServer);
 
   io.use(async (socket, next) => {
     const { token } = socket.handshake.auth;
