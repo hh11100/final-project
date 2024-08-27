@@ -33,15 +33,6 @@ export const MainListItems = ({ user }) => {
         </ListItemButton>
       )}
 
-      {user?.accountType === 'helper' && (
-        <ListItemButton onClick={() => Router.push('/dashboard/schedule')}>
-          <ListItemIcon>
-            <CalendarMonthIcon />
-          </ListItemIcon>
-          <ListItemText primary="My Schedule" />
-        </ListItemButton>
-      )}
-
       <ListItemButton onClick={() => Router.push('/dashboard/messages')}>
         <ListItemIcon>
           <MessageIcon />
