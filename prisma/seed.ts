@@ -4,6 +4,16 @@ const PrismaClient = require('@prisma/client').PrismaClient;
 async function main() {
   const prisma = new PrismaClient();
 
+  // Delete all existing records
+  await prisma.message.deleteMany({});
+  await prisma.conversation.deleteMany({});
+  await prisma.notification.deleteMany({});
+  await prisma.jobApplication.deleteMany({});
+  await prisma.job.deleteMany({});
+  await prisma.user.deleteMany({});
+
+  console.log('All existing records deleted.');
+
   // Create Users
   const userData = [
     { firstName: 'Gizi', lastName: 'Nagy', email: 'gizi.nagy@example.com', password: 'password123', accountType: 'seeker' },
