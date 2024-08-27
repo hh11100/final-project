@@ -10,10 +10,12 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useUser } from '@/context/UserContext';
 
 export default function SignIn() {
   const [error, setError] = React.useState([]);
   const router = useRouter();
+  const { clearCache } = useUser();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,6 +33,9 @@ export default function SignIn() {
 
     if (response.ok) {
       const data = await response.json();
+
+      // Clear the cache
+      clearCache();
       
       // Set JWT token in cookie
       document.cookie = `token=${data.data.token}; path=/`;

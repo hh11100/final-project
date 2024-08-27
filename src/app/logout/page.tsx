@@ -12,6 +12,8 @@ const Logout = () => {
       // Clear the 'userId' cookie
       document.cookie = 'userId=; Max-Age=0; path=/;';
 
+      localStorage.removeItem('user');
+
       // Redirect to the login page or homepage
       router.push('/login');
     }
