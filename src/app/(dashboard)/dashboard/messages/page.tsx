@@ -257,9 +257,6 @@ export default function Page() {
             </Grid>
             
             <Grid item xs={6} sm={3}>
-              <Button variant="contained" fullWidth color="primary" onClick={() => router.push(`/dashboard/profile/${conversationOtherUser}`)}>
-                View Profile
-              </Button>
             </Grid>
           </Grid>
 
