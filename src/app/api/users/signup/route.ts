@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import bcrypt from 'bcrypt';
 
 const schema = z.object({
   email: z.string().email().transform((email) => email.toLowerCase()),  // Normalize email case
@@ -30,16 +31,19 @@ export async function POST(req: Request) {
     try {
       parsedData = schema.parse(data);
     } catch(error) {
-      let errors = error.errors.map((err) => err.message);
-      return Response.json({ message: errors }, { status: 400 });
+      let errors = (error as z.ZodError).errors.map((err) => err.message);
+      return new Response(JSON.stringify({ message: errors }), { status: 400 });
     }
 
     const { email, password, firstName, lastName, accountType } = parsedData;
 
+    // Hash the password using bcrypt before saving to the database
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const result = await prisma.user.create({
       data: {
         email,
-        password,
+        password: hashedPassword,  // Save the hashed password
         firstName,
         lastName,
         accountType,
@@ -48,10 +52,9 @@ export async function POST(req: Request) {
 
     console.log(result);
     
-    return Response.json({ data });
+    return new Response(JSON.stringify({ data: result }));
   } catch (error) {
     console.error(error);
-    return Response.json({ message: ["Something went wrong."] }, { status: 400 });
+    return new Response(JSON.stringify({ message: ["Something went wrong."] }), { status: 400 });
   }
-  
 }

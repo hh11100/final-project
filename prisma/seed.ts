@@ -3,6 +3,7 @@ const PrismaClient = require('@prisma/client').PrismaClient;
 
 async function main() {
   const prisma = new PrismaClient();
+  const bcrypt = require('bcrypt');
 
   // Delete all existing records
   await prisma.message.deleteMany({});
@@ -14,14 +15,16 @@ async function main() {
 
   console.log('All existing records deleted.');
 
+  const testPassword = await bcrypt.hash("password123", 10);
+
   // Create Users
   const userData = [
-    { firstName: 'Gizi', lastName: 'Nagy', email: 'gizi.nagy@example.com', password: 'password123', accountType: 'seeker' },
-    { firstName: 'Klari', lastName: 'Toth', email: 'klari.toth@example.com', password: 'password123', accountType: 'seeker' },
-    { firstName: 'Margit', lastName: 'Kovacs', email: 'margit.kovacs@example.com', password: 'password123', accountType: 'seeker' },
-    { firstName: 'John', lastName: 'Smith', email: 'john.smith@example.com', password: 'password123', accountType: 'helper' },
-    { firstName: 'Mary', lastName: 'Brown', email: 'mary.brown@example.com', password: 'password123', accountType: 'helper' },
-    { firstName: 'George', lastName: 'Wilson', email: 'george.wilson@example.com', password: 'password123', accountType: 'helper' },
+    { firstName: 'Gizi', lastName: 'Nagy', email: 'gizi.nagy@example.com', password: testPassword, accountType: 'seeker' },
+    { firstName: 'Klari', lastName: 'Toth', email: 'klari.toth@example.com', password: testPassword, accountType: 'seeker' },
+    { firstName: 'Margit', lastName: 'Kovacs', email: 'margit.kovacs@example.com', password: testPassword, accountType: 'seeker' },
+    { firstName: 'John', lastName: 'Smith', email: 'john.smith@example.com', password: testPassword, accountType: 'helper' },
+    { firstName: 'Mary', lastName: 'Brown', email: 'mary.brown@example.com', password: testPassword, accountType: 'helper' },
+    { firstName: 'George', lastName: 'Wilson', email: 'george.wilson@example.com', password: testPassword, accountType: 'helper' },
   ];
 
   const createdUsers = await Promise.all(

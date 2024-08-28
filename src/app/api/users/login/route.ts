@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { SignJWT } from 'jose';
-import { nanoid } from 'nanoid'; // For generating unique JWT IDs
-import { TextEncoder } from 'util'; // Node.js utility for encoding
+import { nanoid } from 'nanoid';
+import { TextEncoder } from 'util';
+import bcrypt from 'bcrypt';
 
 const schema = z.object({
   email: z.string().email().transform((email) => email.toLowerCase()),
@@ -24,14 +25,21 @@ export async function POST(req: Request) {
 
     const { email, password } = parsedData;
 
+    // Fetch the user by email
     const user = await prisma.user.findFirst({
       where: {
         email,
-        password, // Note: It's recommended to hash passwords in production
       },
     });
 
     if (!user) {
+      return new Response(JSON.stringify({ message: ["Invalid email or password."] }), { status: 400 });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       return new Response(JSON.stringify({ message: ["Invalid email or password."] }), { status: 400 });
     }
 
