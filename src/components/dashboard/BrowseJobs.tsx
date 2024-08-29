@@ -3,7 +3,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/context/UserContext';
@@ -37,7 +37,6 @@ export default function BrowseJobs() {
   };
 
   const onJobApply = async (jobId: string) => {
-    // redirect to the job application page /dashboard/jobs/${jobId}/apply
     router.push(`/dashboard/jobs/${jobId}`);
   }
 
@@ -51,13 +50,9 @@ export default function BrowseJobs() {
         {jobData.map((job, index) => (
           <Grid item xs={12} key={index}>
             <JobCard
-              title={job.title}
-              description={job.description}
-              datePosted={job.datePosted}
-              location={job.location}
+              job={job}
               seeMoreLink={`/dashboard/jobs/${job.id}`} // Pass the "See More" link
               onApply={() => onJobApply(job.id)} // Pass the onApply callback
-              postedBy={job.postedBy}
               currentUser={currentUser}
             />
           </Grid>

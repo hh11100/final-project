@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import JobDetails from '@/components/JobDetails';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import { Job } from '@/types';
+const { useUser } = require('@/context/UserContext');
 
 export default function Page({ params }: { params: { id: string } }) {
   const [jobDetailData, setJobDetailData] = useState<Job | null>(null);
@@ -11,8 +12,13 @@ export default function Page({ params }: { params: { id: string } }) {
   const [coverLetter, setCoverLetter] = useState<string>('');
   const [hasApplied, setHasApplied] = useState<boolean>(false);
   const [submissionMessage, setSubmissionMessage] = useState<string | null>(null);
+  const { user } = useUser();
 
   const id = params.id;
+
+  const checkIfPostedByCurrentUser = () => {
+    return jobDetailData?.postedBy.id === user.id;
+  }
 
   useEffect(() => {
     async function fetchJob() {
@@ -95,14 +101,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     <Box>
-      <JobDetails
-        title={jobDetailData.title}
-        description={jobDetailData.description}
-        datePosted={jobDetailData.datePosted}
-        location={jobDetailData.location}
-        typeOfHelp={jobDetailData.typeOfHelp}
-        specialInstructions={jobDetailData.specialInstructions}
-      />
+      <JobDetails job={jobDetailData} />
 
       {hasApplied ? (
         <Typography variant="h6" color="primary" style={{ marginTop: '20px' }}>
@@ -120,25 +119,27 @@ export default function Page({ params }: { params: { id: string } }) {
             </Typography>
           )}
 
-          <Box component="form" noValidate autoComplete="off" style={{ marginTop: '20px' }}>
-            <TextField
-              fullWidth
-              label="Cover Letter"
-              value={coverLetter}
-              onChange={(e) => setCoverLetter(e.target.value)}
-              margin="normal"
-              multiline
-              rows={4}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: '20px' }}
-              onClick={handleApply}
-            >
-              Submit Application
-            </Button>
-          </Box>
+          {!checkIfPostedByCurrentUser() && user.accountType === 'helper' && (
+            <Box component="form" noValidate autoComplete="off" style={{ marginTop: '20px' }}>
+              <TextField
+                fullWidth
+                label="Cover Letter"
+                value={coverLetter}
+                onChange={(e) => setCoverLetter(e.target.value)}
+                margin="normal"
+                multiline
+                rows={4}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '20px' }}
+                onClick={handleApply}
+              >
+                Submit Application
+              </Button>
+            </Box>
+          )}
         </>
       )}
     </Box>

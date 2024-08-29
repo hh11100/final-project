@@ -78,7 +78,22 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
     const job = await prisma.job.findUnique({
       where: { id },
+      include: {
+        postedBy: {
+          select: { id: true, firstName: true, lastName: true },
+        },
+      }
     });
+
+    if (!job) {
+      return new Response(JSON.stringify({ message: ["Job not found."] }), { status: 404 });
+    }
+
+    const numberOfApplications = await prisma.jobApplication.count({
+      where: { jobId: id },
+    });
+
+    job.numberOfApplications = numberOfApplications;
 
     return new Response(JSON.stringify(job), { status: 200 });
   } catch (error) {

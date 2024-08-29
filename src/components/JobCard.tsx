@@ -3,17 +3,14 @@ import { Card, CardContent, Typography, Link, Button, Box } from '@mui/material'
 import { useRouter } from 'next/navigation';
 
 interface JobCardProps {
-  title: string;
-  description: string;
-  datePosted: string;
-  location: string;
+  job: {}, // Job object
   seeMoreLink?: string; // Optional prop for the "See More" link
-  postedBy: {},
   currentUser: {},
   onApply?: () => void; // Optional prop for the onApply callback
 }
 
-const JobCard: React.FC<JobCardProps> = ({ title, description, datePosted, location, seeMoreLink, postedBy, onApply, currentUser }) => {
+const JobCard: React.FC<JobCardProps> = ({ job, seeMoreLink, onApply, currentUser }) => {
+  const { title, description, datePosted, location, postedBy } = job;
   const jobPostedByCurrentUser = () => {
     // Check if the job was posted by the current user
     return postedBy.id === currentUser.id;
@@ -24,7 +21,7 @@ const JobCard: React.FC<JobCardProps> = ({ title, description, datePosted, locat
     <Card variant="outlined" style={{ marginBottom: '20px' }}>
       <CardContent>
         <Typography variant="h5" component="div">
-          {title}
+          <Link  onClick={() => router.push(seeMoreLink)} style={{ marginTop: '10px', cursor: 'pointer' }}>{title}</Link>
         </Typography>
         <Typography color="textSecondary" gutterBottom>
           {location}
@@ -35,16 +32,20 @@ const JobCard: React.FC<JobCardProps> = ({ title, description, datePosted, locat
         <Typography color="textSecondary" style={{ marginTop: '10px' }}>
           Posted on: {datePosted}
         </Typography>
+        <Typography color="textSecondary" style={{ marginTop: '10px' }}>
+          Posted by: {postedBy.firstName} {postedBy.lastName}
+        </Typography>
+        
+        <Box style={{ marginTop: '20px' }} display="flex" justifyContent="flex-end">
         {seeMoreLink && (
-          <Typography onClick={() => router.push(seeMoreLink)} style={{ marginTop: '10px', cursor: 'pointer' }}>
-            See More
-          </Typography>
-        )}
-        {!jobPostedByCurrentUser() ? <Box style={{ marginTop: '20px' }} display="flex" justifyContent="flex-end">
-          <Button variant="contained" color="primary" onClick={onApply}>
-            Apply
+          <Button variant="contained" color="primary"onClick={() => router.push(seeMoreLink)} style={{ marginRight: 10 }}>
+            Details
           </Button>
-        </Box> : null }
+          )}
+          {!jobPostedByCurrentUser() ? <Button variant="contained" color="primary" onClick={onApply}>
+            Apply
+          </Button> : null }
+        </Box>
       </CardContent> 
     </Card>
   );

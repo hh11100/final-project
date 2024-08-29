@@ -43,6 +43,7 @@ model Job {
   postedBy            User               @relation("UserJobs", fields: [userId], references: [id])
   userId              String
   applications        JobApplication[]   @relation("JobApplications")
+  status              String   @default("active")
 }
 
 model JobApplication {

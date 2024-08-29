@@ -21,6 +21,14 @@ export async function POST(request: Request, { params }: { params: { id: string 
     const { id: applicationId } = idValidationResult.data;
     const userId = request.headers.get('x-user-id');
 
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userId as string },
+    });
+
+    if (!currentUser) {
+      return new Response(JSON.stringify({ message: "User not found." }), { status: 404 });
+    }
+
     // Change the status of the job application to 'accepted'
     const application = await prisma.jobApplication.update({
       where: { id: applicationId },
@@ -34,13 +42,19 @@ export async function POST(request: Request, { params }: { params: { id: string 
       data: { status: 'closed' },
     });
 
+    // Update the job status to 'closed'
+    await prisma.job.update({
+      where: { id: application.jobId },
+      data: { status: 'closed' },
+    });
+
     // Create a new notification for the applicant
     await prisma.notification.create({
       data: {
         user: {
           connect: { id: application.applicant.id },
         },
-        message: `Your application for the job "${application.job.title}" has been accepted.`,
+        message: `Your application for the job "${application.job.title}" has been accepted by ${currentUser?.firstName} ${currentUser?.lastName}.`,
         type: 'job_application',
         jobApplication: {
           connect: { id: application.id },
