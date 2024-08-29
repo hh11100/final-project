@@ -109,36 +109,40 @@ export default function Page({ params }: { params: { id: string } }) {
         </Typography>
       ) : (
         <>
-          <Typography variant="h6" style={{ marginTop: '20px' }}>
-            Apply for this job
-          </Typography>
-
-          {submissionMessage && (
-            <Typography color="primary" style={{ marginTop: '10px' }}>
-              {submissionMessage}
-            </Typography>
-          )}
-
           {!checkIfPostedByCurrentUser() && user.accountType === 'helper' && (
-            <Box component="form" noValidate autoComplete="off" style={{ marginTop: '20px' }}>
-              <TextField
-                fullWidth
-                label="Cover Letter"
-                value={coverLetter}
-                onChange={(e) => setCoverLetter(e.target.value)}
-                margin="normal"
-                multiline
-                rows={4}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: '20px' }}
-                onClick={handleApply}
-              >
-                Submit Application
-              </Button>
-            </Box>
+            <>
+              <Typography variant="h6" style={{ marginTop: '20px' }}>
+                Apply for this job
+              </Typography>
+
+              {submissionMessage && (
+                <Typography color="primary" style={{ marginTop: '10px' }}>
+                  {submissionMessage}
+                </Typography>
+              )}
+
+
+              <Box component="form" noValidate autoComplete="off" style={{ marginTop: '20px' }}>
+                <TextField
+                  fullWidth
+                  label="Cover Letter"
+                  value={coverLetter}
+                  onChange={(e) => setCoverLetter(e.target.value)}
+                  margin="normal"
+                  multiline
+                  rows={4}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: '20px' }}
+                  onClick={handleApply}
+                >
+                  Submit Application
+                </Button>
+              </Box>
+            </>
+
           )}
         </>
       )}
