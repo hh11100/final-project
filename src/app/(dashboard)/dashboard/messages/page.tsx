@@ -15,6 +15,7 @@ import { socket } from '@/lib/socket';
 import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/navigation';
 import { Conversation } from '@/types';
+import { green } from '@mui/material/colors';
 
 const fetchConversations = async () => {
   try {
@@ -74,6 +75,8 @@ export default function Page() {
         setCurrentConversationId(convos[0].id); // Automatically load the first conversation
         setConversationOtherUser(convos[0].participants.find((p: Conversation) => p.id !== user.id).firstName);
         setCurrentConversation(convos[0]);
+
+        console.log('Current conversation:', convos[0]);
       }
     };
 
@@ -202,6 +205,16 @@ export default function Page() {
       }
 
       const data = await response.json();
+
+      // Update the conversation status
+      setCurrentConversation((prevConversation) => ({
+        ...prevConversation,
+        jobApplication: {
+          ...prevConversation.jobApplication,
+          status: 'accepted',
+        },
+      }));
+
       console.log(data);
     } catch (error) {
       console.error('Failed to accept application:', error);
@@ -245,6 +258,10 @@ export default function Page() {
             </Grid>
             
             <Grid item xs={6} sm={3}>
+              
+            </Grid>
+            
+            <Grid item xs={6} sm={3}>
               {user && user.accountType === 'seeker' && (
                 <>
                 {currentConversation && currentConversation.jobApplication && currentConversation.jobApplication.status === 'pending' && (
@@ -252,11 +269,13 @@ export default function Page() {
                     Accept Application
                   </Button>
                 )}
+                {currentConversation && currentConversation.jobApplication && currentConversation.jobApplication.status === 'accepted' && (
+                  <Button variant="contained" fullWidth style={{ backgroundColor: green[500] }}>
+                    Accepted <span style={{ marginLeft: 5 }}>✓</span>
+                  </Button>
+                )}
                 </>
               )}
-            </Grid>
-            
-            <Grid item xs={6} sm={3}>
             </Grid>
           </Grid>
 

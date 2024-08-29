@@ -124,6 +124,7 @@ export async function GET(req: Request) {
         jobApplication: {
           select: {
             id: true,
+            status: true,
             job: {
               select: {
                 title: true,
