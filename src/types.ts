@@ -20,6 +20,7 @@ export interface Job {
   startTiming: string;
   additionalInfo: string;
   specialInstructions: string;
+  status: string;
   postedBy: User;
   userId: string;
   applications: JobApplication[];

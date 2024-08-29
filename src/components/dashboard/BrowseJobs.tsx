@@ -5,13 +5,13 @@ import SearchBar from '@/components/SearchBar';
 import JobCard from '@/components/JobCard';
 import { Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
-
+import { Job } from '@/types';
 
 export default function BrowseJobs() {
   const router = useRouter();
-  const [jobData, setJobData] = useState([]);
+  const [jobData, setJobData] = useState<Job[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const currentUser = useUser();
 
@@ -38,7 +38,7 @@ export default function BrowseJobs() {
 
   const onJobApply = async (jobId: string) => {
     router.push(`/dashboard/jobs/${jobId}`);
-  }
+  };
 
   return (
     <>
@@ -47,15 +47,17 @@ export default function BrowseJobs() {
       </Typography>
       <SearchBar onSearch={handleSearch} />
       <Grid container spacing={3}>
-        {jobData.map((job, index) => (
-          <Grid item xs={12} key={index}>
-            <JobCard
-              job={job}
-              seeMoreLink={`/dashboard/jobs/${job.id}`} // Pass the "See More" link
-              onApply={() => onJobApply(job.id)} // Pass the onApply callback
-              currentUser={currentUser}
-            />
-          </Grid>
+        {jobData.map((job) => (
+          job.status === 'active' && (
+            <Grid item xs={12} key={job.id}>
+              <JobCard
+                job={job}
+                seeMoreLink={`/dashboard/jobs/${job.id}`}
+                onApply={() => onJobApply(job.id)}
+                currentUser={currentUser}
+              />
+            </Grid>
+          )
         ))}
       </Grid>
     </>
